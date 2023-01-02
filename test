@@ -1,0 +1,32 @@
+import csv
+import pyrogram
+
+# Replace with your own API ID and API hash
+api_id = 
+api_hash = ''
+
+# Create the client and connect to the Telegram servers
+client = pyrogram.Client('my_account', api_id, api_hash)
+client.start()
+
+# Open the CSV file for writing
+with open('messages.csv', 'w', newline='',encoding='utf-8') as csvfile:
+    writer = csv.writer(csvfile)
+    # Write the header row
+    writer.writerow(['from', 'text', 'date', 'from_id'])
+
+# Retrieve the latest 10 messages from the channel
+    channel_id = "@"
+#messages = client.get_chat_history(channel_id,limit=100)
+#print(messages)
+# Write the messages to the CSV file
+    for message in client.get_chat_history(channel_id,limit=10):
+        print(message.caption)
+        print(message.from_user)
+        print(message.date)
+        #print("\\n\n\n\n")
+        if message.caption != None:
+            writer.writerow([message.from_user, message.caption, message.date])
+
+# Disconnect from the servers
+client.stop()
